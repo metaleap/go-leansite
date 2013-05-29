@@ -1,0 +1,79 @@
+html,
+body {
+height: 100%;
+/* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+color: #333;
+min-height: 100%;
+height: auto !important;
+height: 100%;
+/* Negative indent footer by it's height */
+margin: 0 auto -60px;
+}
+
+#wrap a {
+	font-weight: bold;
+}
+
+a.magpop {
+	display: block;
+	padding: 10px;
+	text-align: center;
+}
+
+a.magpop img {
+	max-width: 50%;
+}
+
+h2 {
+	color: #ccc;
+}
+
+h3 {
+	color: #888;
+}
+
+h4, h4 a {
+	color: #999;
+}
+
+.hero-unit {
+	background-color: #456;
+	padding: 40px;
+	color: #fff;
+	text-shadow: 0 1px 1px rgba(0,0,0,.4);
+}
+
+/* Set the fixed height of the footer here */
+#push,
+#footer {
+height: 60px;
+}
+#footer {
+background-color: #f5f5f5;
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+#footer {
+margin-left: -20px;
+margin-right: -20px;
+padding-left: 20px;
+padding-right: 20px;
+}
+}
+
+#wrap > .container {
+padding-top: 60px;
+}
+.container .credit {
+margin: 20px 0;
+text-align: center;
+}
+
+code {
+font-size: 80%;
+}
