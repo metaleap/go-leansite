@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/goforks/blackfriday"
+	"github.com/goforks/fsnotify"
 	"github.com/gorilla/mux"
-	"github.com/howeyc/fsnotify"
-	"github.com/russross/blackfriday"
 
 	uio "github.com/metaleap/go-util/io"
 )
