@@ -1,6 +1,7 @@
 package leansite
 
 import (
+	"bytes"
 	"fmt"
 	"html/template"
 	"io/ioutil"
@@ -18,27 +19,28 @@ import (
 )
 
 var (
-	DirPath string
+	DirPath  string
+	DirWatch *uio.Watcher
 
-	fileServer http.Handler
-	tmpl       *template.Template
+	fileServer    http.Handler
+	tmpl          *template.Template
+	pageTemplates = map[string]*template.Template{}
 )
 
 func dir(name string) string {
 	return filepath.Join(DirPath, name)
 }
 
-func reloadTemplates(err error) {
-	if err == nil {
-		fileNames := []string{filepath.Join(dir("templates"), "main.html")}
-		uio.NewDirWalker(nil, func(_ *uio.DirWalker, fullPath string, _ os.FileInfo) bool {
-			if !strings.HasSuffix(fullPath, "main.html") {
-				fileNames = append(fileNames, fullPath)
-			}
-			return true
-		}).Walk(dir("templates"))
-		tmpl, err = template.ParseFiles(fileNames...)
-	}
+func reloadTemplates() {
+	fileNames := []string{filepath.Join(dir("templates"), "main.html")}
+	uio.NewDirWalker(nil, func(_ *uio.DirWalker, fullPath string, _ os.FileInfo) bool {
+		if !strings.HasSuffix(fullPath, string(filepath.Separator)+"main.html") {
+			fileNames = append(fileNames, fullPath)
+		}
+		return true
+	}).Walk(dir("templates"))
+	var err error
+	tmpl, err = template.ParseFiles(fileNames...)
 	if err != nil {
 		tmpl, err = template.New("error").Parse(fmt.Sprintf("ERROR loading templates: %+v", err))
 	}
@@ -70,6 +72,29 @@ func serveTemplatedContent(w http.ResponseWriter, r *http.Request) {
 	pc := NewPageContext(r, urlPath)
 	if len(filePath) > 0 && uio.FileExists(filePath) {
 		if fileData, err = ioutil.ReadFile(filePath); err == nil {
+			var tmpl *template.Template
+			if pos := bytes.Index(fileData, []byte("{{")); pos >= 0 {
+				if bytes.Index(fileData, []byte("}}")) > pos {
+					tmpl = pageTemplates[filePath]
+					if tmpl == nil {
+						var err error
+						tmpl, err = template.ParseFiles(filePath)
+						if err == nil {
+							pageTemplates[filePath] = tmpl
+						} else {
+							tmpl, err = template.New("pterror").Parse(fmt.Sprintf("ERROR loading template %s:\t%+v", filePath, err))
+						}
+					}
+				}
+			}
+			if tmpl != nil {
+				var buf bytes.Buffer
+				if err := tmpl.Execute(&buf, pc); err != nil {
+					fileData = []byte(err.Error())
+				} else {
+					fileData = buf.Bytes()
+				}
+			}
 			if isMarkdown {
 				pc.HtmlContent = template.HTML(blackfriday.MarkdownCommon(fileData))
 			} else {
@@ -86,16 +111,17 @@ func serveTemplatedContent(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func ListenAndServe(dirPath string) error {
+func ListenAndServe(dirPath string) (err error) {
 	DirPath = dirPath
-	watch, err := uio.WatchDirectory(dir("templates"), func(evt *fsnotify.FileEvent, err error) (stopWatching bool) {
-		reloadTemplates(err)
-		return err != nil
-	})
-	if watch != nil {
-		defer watch.Close()
+	if DirWatch, err = uio.NewWatcher(); err != nil {
+		return
+	} else {
+		defer DirWatch.Close()
 	}
-	reloadTemplates(err)
+	DirWatch.WatchDir(dir("templates"), true, func(evt *fsnotify.FileEvent) {
+		reloadTemplates()
+	})
+	go DirWatch.Go()
 
 	fileServer = http.FileServer(http.Dir(dir("static")))
 	r := mux.NewRouter()

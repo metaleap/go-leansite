@@ -35,6 +35,10 @@ func NewPageContext(r *http.Request, path string) (me *PageContext) {
 	return
 }
 
+func (me *PageContext) GetBlog(path string) (entries []*PageTopNavItem) {
+	return
+}
+
 type PageTopNavItem struct {
 	CssClass, Href, Caption, Desc string
 }
