@@ -22,7 +22,19 @@ type BlogNavItem struct {
 	Year, Month, Day string
 }
 
-func (me *PageContext) GetBlogArchive(path string) BlogNavItems {
+func (me *BlogNav) ShowYear(year string) (dif bool) {
+	if dif = (year != me.lastYear); dif {
+		me.lastYear = year
+	}
+	return
+}
+
+type BlogNav struct {
+	Nav      BlogNavItems
+	lastYear string
+}
+
+func (me *PageContext) GetBlogArchive(path string) *BlogNav {
 	if _, ok := SiteData.Blogs[path]; !ok {
 		dirPath := dir("contents", path)
 		handler := func() {
@@ -51,7 +63,7 @@ func (me *PageContext) GetBlogArchive(path string) BlogNavItems {
 				return true
 			}).Walk(dirPath)
 			sort.Sort(items)
-			SiteData.Blogs[path] = items
+			SiteData.Blogs[path] = BlogNav{Nav: items}
 		}
 		uio.NewDirWalker(true, func(_ *uio.DirWalker, fullPath string, _ os.FileInfo) bool {
 			DirWatch.WatchDir(fullPath, false, handler)
@@ -59,5 +71,6 @@ func (me *PageContext) GetBlogArchive(path string) BlogNavItems {
 		}, nil).Walk(dirPath)
 		handler()
 	}
-	return SiteData.Blogs[path]
+	copy := SiteData.Blogs[path]
+	return &copy
 }

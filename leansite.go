@@ -18,12 +18,13 @@ var (
 	DirWatch *uio.Watcher
 	SiteData struct {
 		TopNav NavItems
-		Blogs  map[string]BlogNavItems
+		Blogs  map[string]BlogNav
+
+		mainTemplate  *template.Template
+		pageTemplates map[string]*template.Template
 	}
 
-	fileServer    http.Handler
-	tmpl          *template.Template
-	pageTemplates = map[string]*template.Template{}
+	fileServer http.Handler
 )
 
 func dir(names ...string) string {
@@ -31,7 +32,8 @@ func dir(names ...string) string {
 }
 
 func ListenAndServe(dirPath string) (err error) {
-	SiteData.Blogs = map[string]BlogNavItems{}
+	SiteData.Blogs = map[string]BlogNav{}
+	SiteData.pageTemplates = map[string]*template.Template{}
 	DirPath = dirPath
 	if DirWatch, err = uio.NewWatcher(); err != nil {
 		return
