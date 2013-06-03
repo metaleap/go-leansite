@@ -93,6 +93,13 @@ func serveTemplatedContent(w http.ResponseWriter, r *http.Request) {
 	} else {
 		pc.HtmlContent = "404 Not Found"
 	}
+	pos1, pos2 := strings.Index(string(pc.HtmlContent), "<h2>"), strings.LastIndex(string(pc.HtmlContent), "</h2>")
+	if pos1 >= 0 && pos2 > pos1 {
+		docTitle := string(pc.HtmlContent[:pos2])
+		if pos2 = strings.Index(docTitle, "</h2>"); pos2 < 0 {
+			pc.PageTitle = docTitle[pos1+4:]
+		}
+	}
 	if err == nil {
 		err = SiteData.mainTemplate.Execute(w, pc)
 	} else {

@@ -9,15 +9,20 @@ import (
 type NavItems []NavItem
 
 type PageContext struct {
-	R           *http.Request
-	Path        string
-	HtmlContent template.HTML
-	TopNav      NavItems
+	R               *http.Request
+	Path, PageTitle string
+	HtmlContent     template.HTML
+	TopNav          NavItems
 }
 
 func NewPageContext(r *http.Request, path string) (me *PageContext) {
 	me = &PageContext{R: r, Path: path}
 	me.TopNav = SiteData.TopNav
+	for _, nav := range me.TopNav {
+		if nav.IsActive(me) {
+			me.PageTitle = nav.Caption
+		}
+	}
 	return
 }
 
