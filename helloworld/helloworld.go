@@ -1,9 +1,8 @@
-package appengine
+package helloworld
 
 import (
 	"net/http"
 	"os"
-	"path/filepath"
 
 	leansite "github.com/metaleap/go-leansite"
 )
@@ -13,6 +12,6 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	leansite.Init(filepath.Dir(cwd))
+	leansite.Init(cwd)
 	http.Handle("/", leansite.Router)
 }
