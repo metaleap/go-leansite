@@ -16,6 +16,7 @@ import (
 var (
 	DirPath  string
 	DirWatch *uio.Watcher
+	Router   *mux.Router
 	SiteData struct {
 		TopNav NavItems
 		Blogs  map[string]BlogNav
@@ -31,14 +32,12 @@ func dir(names ...string) string {
 	return filepath.Join(append([]string{DirPath}, names...)...)
 }
 
-func ListenAndServe(dirPath string) (err error) {
+func Init(dirPath string) (err error) {
 	SiteData.Blogs = map[string]BlogNav{}
 	SiteData.pageTemplates = map[string]*template.Template{}
 	DirPath = dirPath
 	if DirWatch, err = uio.NewWatcher(); err != nil {
 		return
-	} else {
-		defer DirWatch.Close()
 	}
 
 	//	Load and watch templates
@@ -60,11 +59,16 @@ func ListenAndServe(dirPath string) (err error) {
 
 	//	Listen and serve
 	fileServer = http.FileServer(http.Dir(dir("static")))
-	r := mux.NewRouter()
-	r.PathPrefix("/").HandlerFunc(serveTemplatedContent)
+	Router = mux.NewRouter()
+	Router.PathPrefix("/").HandlerFunc(serveTemplatedContent)
+	return
+}
+
+func ListenAndServe(addr string) (err error) {
+	defer DirWatch.Close()
 	s := &http.Server{
-		Addr:    ":8080",
-		Handler: r,
+		Addr:    addr,
+		Handler: Router,
 		//	http://stackoverflow.com/questions/10971800/golang-http-server-leaving-open-goroutines
 		ReadTimeout: 2 * time.Minute,
 	}

@@ -13,5 +13,6 @@ func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	flag.Parse()
 	dirPath := *flag.String("dir", ugo.GopathSrcGithub("metaleap", "go-leansite", "go-leansite-example"), "Root directory path containing the static, contents, templates etc. folders.")
-	log.Fatal(leansite.ListenAndServe(dirPath))
+	leansite.Init(dirPath)
+	log.Fatal(leansite.ListenAndServe(":8008"))
 }

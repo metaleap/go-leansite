@@ -18,16 +18,16 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">go:LeanSite</a>
+          <a class="brand" href="/">go:LeanSite</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               {{$pc := .}}
             	{{range $navItem := .TopNav}}
-            	<li class="{{$navItem.CssClass}} {{if ($navItem.IsActive $pc)}}active{{end}}" title="{{$navItem.Desc}}">
+            	<li class="{{ $navItem.CssClass }} {{ if $navItem.IsActive $pc }}active{{ end }}" title="{{$navItem.Desc}}">
                 <a href="/{{$navItem.Href}}">{{$navItem.Caption}}</a>
               </li>
             	{{end}}
-              <li class="pull-right"><a href="mailto:philipp.schumann@gmail.com">Contact</a></li>
+              <li class="pull-right"><a href="javascript:alert('Your mailto: link here...');">Contact</a></li>
             </ul>
           </div>
         </div>
