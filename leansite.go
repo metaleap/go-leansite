@@ -36,9 +36,7 @@ func Init(dirPath string) (err error) {
 	SiteData.Blogs = map[string]BlogNav{}
 	SiteData.pageTemplates = map[string]*template.Template{}
 	DirPath = dirPath
-	if DirWatch, err = uio.NewWatcher(); err != nil {
-		return
-	}
+	DirWatch, err = uio.NewWatcher()
 
 	//	Load and watch templates
 	DirWatch.WatchDir(dir("templates"), true, reloadTemplates)

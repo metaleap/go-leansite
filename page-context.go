@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"net/http"
 	"strings"
+	"time"
 )
 
 type NavItems []NavItem
@@ -13,10 +14,11 @@ type PageContext struct {
 	Path, PageTitle string
 	HtmlContent     template.HTML
 	TopNav          NavItems
+	Year            int
 }
 
 func NewPageContext(r *http.Request, path string) (me *PageContext) {
-	me = &PageContext{R: r, Path: path}
+	me = &PageContext{R: r, Path: path, Year: time.Now().Year()}
 	me.TopNav = SiteData.TopNav
 	for _, nav := range me.TopNav {
 		if nav.IsActive(me) {

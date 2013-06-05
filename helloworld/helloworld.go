@@ -9,8 +9,8 @@ import (
 
 func init() {
 	cwd, err := os.Getwd()
-	if err != nil {
-		panic(err)
+	if err != nil || len(cwd) == 0 {
+		cwd = "."
 	}
 	leansite.Init(cwd)
 	http.Handle("/", leansite.Router)
