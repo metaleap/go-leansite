@@ -29,6 +29,9 @@ var (
 )
 
 func dir(names ...string) string {
+	if len(DirPath) == 0 {
+		return filepath.Join(names...)
+	}
 	return filepath.Join(append([]string{DirPath}, names...)...)
 }
 
