@@ -14,12 +14,22 @@ import (
 )
 
 var (
-	DirPath  string
+	//	To be set via Init(), see func Init() docs
+	DirPath string
+
+	//	Various file-system watchers, initialized by Init()
 	DirWatch *uio.Watcher
-	Router   *mux.Router
+
+	//	Our request router, initialized by Init()
+	Router *mux.Router
+
+	//	Some site-specific data loaded from DirPath
 	SiteData struct {
+		//	Top-level navigation links loaded from contents/top.nav JSON file
 		TopNav NavItems
-		Blogs  map[string]BlogNav
+
+		//	A map of blogs. Populated by PageContext.GetBlogArchive(), which is called from a template
+		Blogs map[string]BlogNav
 
 		mainTemplate  *template.Template
 		pageTemplates map[string]*template.Template
@@ -35,6 +45,11 @@ func dir(names ...string) string {
 	return filepath.Join(append([]string{DirPath}, names...)...)
 }
 
+//	Stand-alone: call this in your main() before calling ListenAndServe().
+//
+//	App Engine: call this in your init() and DON'T call ListenAndServe().
+//
+//	dirPath: the site's base directory which contains folders "static", "contents" and "templates".
 func Init(dirPath string) (err error) {
 	SiteData.Blogs = map[string]BlogNav{}
 	SiteData.pageTemplates = map[string]*template.Template{}
@@ -65,6 +80,7 @@ func Init(dirPath string) (err error) {
 	return
 }
 
+//	addr: see http.Server.Addr
 func ListenAndServe(addr string) (err error) {
 	defer DirWatch.Close()
 	s := &http.Server{

@@ -9,19 +9,28 @@ import (
 	uio "github.com/metaleap/go-util/io"
 )
 
+//	A collection of blog entries
 type BlogNavItems []BlogNavItem
 
+//	Implements sort.Interface.Len()
 func (me BlogNavItems) Len() int { return len(me) }
 
+//	Implements sort.Interface.Less()
 func (me BlogNavItems) Less(i, j int) bool { return me[j].Href < me[i].Href }
 
+//	Implements sort.Interface.Swap()
 func (me BlogNavItems) Swap(i, j int) { me[i], me[j] = me[j], me[i] }
 
+//	Represents a blog entry
 type BlogNavItem struct {
+	//	Embedded navigation info (Href, Caption)
 	NavItem
+
+	//	Date posted
 	Year, Month, Day string
 }
 
+//	Returns true if year is different than the value passed when this method was last called
 func (me *BlogNav) ShowYear(year string) (dif bool) {
 	if dif = (year != me.lastYear); dif {
 		me.lastYear = year
@@ -29,11 +38,16 @@ func (me *BlogNav) ShowYear(year string) (dif bool) {
 	return
 }
 
+//	A chronological listing of blog entries
 type BlogNav struct {
-	Nav      BlogNavItems
+	//	A chronological listing of blog entries
+	Nav BlogNavItems
+
 	lastYear string
 }
 
+//	Returns a BlogNav for the specified path.
+//	For example, GetBlogArchive("blog") maps to "contents/blog/"
 func (me *PageContext) GetBlogArchive(path string) *BlogNav {
 	if _, ok := SiteData.Blogs[path]; !ok {
 		dirPath := dir("contents", path)
