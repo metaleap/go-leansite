@@ -1,4 +1,5 @@
 [
 	{ "Href":"", "Caption": "Home" },
-	{ "Href":"test", "Caption": "Test" }
+	{ "Href":"test", "Caption": "Test Page" },
+	{ "Href":"blog", "Caption": "Blog" }
 ]

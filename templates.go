@@ -13,6 +13,7 @@ import (
 	"github.com/goforks/blackfriday"
 
 	uio "github.com/metaleap/go-util/io"
+	ustr "github.com/metaleap/go-util/str"
 )
 
 func reloadTemplates() {
@@ -61,7 +62,7 @@ func serveTemplatedContent(w http.ResponseWriter, r *http.Request) {
 				if bytes.Index(fileData, []byte("}}")) > pos {
 					if _, ok := SiteData.pageTemplates[filePath]; !ok {
 						SiteData.pageTemplates[filePath] = nil
-						DirWatch.WatchFiles(filepath.Dir(filePath), filepath.Base(filePath), false, func(fullPath string) {
+						DirWatch.WatchFiles(filepath.Dir(filePath), ustr.Pattern(filepath.Base(filePath)), false, func(fullPath string) {
 							SiteData.pageTemplates[fullPath] = nil
 						})
 					}

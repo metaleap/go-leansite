@@ -1,0 +1,23 @@
+<h2>Blog Archive</h2>
+<p>
+	A simple chronological listing of "blog articles":
+	Easy to customize this template
+	via CSS and helloworld/contents/blog/index.html!
+</p>
+<hr>
+<table class="blog">
+	{{ $blog := .GetBlogArchive "blog" }}
+	{{ range $blog.Nav }}
+	<tr>
+		<td class="blog-date blog-year">
+			{{ if $blog.ShowYear .Year }}
+				{{.Year}}
+			{{ end }}
+		</td>
+		<td class="blog-date">{{.Month}}/{{.Day}}</td>
+		<td>
+			<a href="/blog{{.Href}}">{{.Caption}}</a>
+		</td>
+	</tr>
+	{{ end }}
+</table>
