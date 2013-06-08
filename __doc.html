@@ -1,0 +1,388 @@
+<html>
+	<head>
+		<title>Package github.com/metaleap/go-leansite</title>
+		<meta charset="UTF-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link type="text/css" rel="stylesheet" href="http://golang.org/doc/style.css" />
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://golang.org/doc/godocs.js"></script>
+	</head>
+	<body>
+		<div id="page" class="wide">
+		<div class="container">
+		<h1>Package github.com/metaleap/go-leansite</h1>
+		<div id="nav"></div>
+		<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "github.com/metaleap/go-leansite"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+				<dd><a href="#pkg-subdirectories">Subdirectories</a></dd>
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+A super-minimalistic &#34;dynamic-web-page&#34; server written in Go, just to explore the net/http, html/template, and Gorilla web packages.
+</p>
+
+			</div>
+		</div>
+		
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+				<dd><a href="#pkg-variables">Variables</a></dd>
+			
+			
+				
+				<dd><a href="#Init">func Init(dirPath string) (err error)</a></dd>
+			
+				
+				<dd><a href="#ListenAndServe">func ListenAndServe(addr string) (err error)</a></dd>
+			
+			
+				
+				<dd><a href="#BlogNav">type BlogNav</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#BlogNav.ShowYear">func (me *BlogNav) ShowYear(year string) (dif bool)</a></dd>
+				
+			
+				
+				<dd><a href="#BlogNavItem">type BlogNavItem</a></dd>
+				
+				
+			
+				
+				<dd><a href="#BlogNavItems">type BlogNavItems</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#BlogNavItems.Len">func (me BlogNavItems) Len() int</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#BlogNavItems.Less">func (me BlogNavItems) Less(i, j int) bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#BlogNavItems.Swap">func (me BlogNavItems) Swap(i, j int)</a></dd>
+				
+			
+				
+				<dd><a href="#NavItem">type NavItem</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#NavItem.IsActive">func (me *NavItem) IsActive(pc *PageContext) bool</a></dd>
+				
+			
+				
+				<dd><a href="#NavItems">type NavItems</a></dd>
+				
+				
+			
+				
+				<dd><a href="#PageContext">type PageContext</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#NewPageContext">func NewPageContext(r *http.Request, path string) (me *PageContext)</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#PageContext.GetBlogArchive">func (me *PageContext) GetBlogArchive(path string) *BlogNav</a></dd>
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h4>Package files</h4>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/target/blogs.go">blogs.go</a>
+			
+				<a href="/target/doc.go">doc.go</a>
+			
+				<a href="/target/leansite.go">leansite.go</a>
+			
+				<a href="/target/page-context.go">page-context.go</a>
+			
+				<a href="/target/templates.go">templates.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+		
+			<h2 id="pkg-variables">Variables</h2>
+			
+				<pre>var (
+    <span id="DirPath">DirPath</span>  <a href="/pkg/builtin/#string">string</a>
+    <span id="DirWatch">DirWatch</span> *<a href="/pkg/github.com/metaleap/go-util/io/">uio</a>.<a href="/pkg/github.com/metaleap/go-util/io/#Watcher">Watcher</a>
+    <span id="Router">Router</span>   *<a href="/pkg/github.com/gorilla/mux/">mux</a>.<a href="/pkg/github.com/gorilla/mux/#Router">Router</a>
+    <span id="SiteData">SiteData</span> struct {
+        TopNav <a href="#NavItems">NavItems</a>
+        Blogs  map[<a href="/pkg/builtin/#string">string</a>]<a href="#BlogNav">BlogNav</a>
+        <span class="comment">// contains filtered or unexported fields</span>
+    }
+)</pre>
+				
+			
+		
+		
+			
+			
+			<h2 id="Init">func <a href="/target/leansite.go?s=587:624#L28">Init</a></h2>
+			<pre>func Init(dirPath <a href="/pkg/builtin/#string">string</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
+			
+			
+		
+			
+			
+			<h2 id="ListenAndServe">func <a href="/target/leansite.go?s=1411:1455#L58">ListenAndServe</a></h2>
+			<pre>func ListenAndServe(addr <a href="/pkg/builtin/#string">string</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
+			
+			
+		
+		
+			
+			
+			<h2 id="BlogNav">type <a href="/target/blogs.go?s=538:601#L22">BlogNav</a></h2>
+			<pre>type BlogNav struct {
+    Nav <a href="#BlogNavItems">BlogNavItems</a>
+    <span class="comment">// contains filtered or unexported fields</span>
+}</pre>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+				
+				<h3 id="BlogNav.ShowYear">func (*BlogNav) <a href="/target/blogs.go?s=410:461#L15">ShowYear</a></h3>
+				<pre>func (me *<a href="#BlogNav">BlogNav</a>) ShowYear(year <a href="/pkg/builtin/#string">string</a>) (dif <a href="/pkg/builtin/#bool">bool</a>)</pre>
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="BlogNavItem">type <a href="/target/blogs.go?s=347:408#L10">BlogNavItem</a></h2>
+			<pre>type BlogNavItem struct {
+    <a href="#NavItem">NavItem</a>
+    Year, Month, Day <a href="/pkg/builtin/#string">string</a>
+}</pre>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="BlogNavItems">type <a href="/target/blogs.go?s=111:142#L2">BlogNavItems</a></h2>
+			<pre>type BlogNavItems []<a href="#BlogNavItem">BlogNavItem</a></pre>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+				
+				<h3 id="BlogNavItems.Len">func (BlogNavItems) <a href="/target/blogs.go?s=144:176#L4">Len</a></h3>
+				<pre>func (me <a href="#BlogNavItems">BlogNavItems</a>) Len() <a href="/pkg/builtin/#int">int</a></pre>
+				
+				
+				
+			
+				
+				<h3 id="BlogNavItems.Less">func (BlogNavItems) <a href="/target/blogs.go?s=197:239#L6">Less</a></h3>
+				<pre>func (me <a href="#BlogNavItems">BlogNavItems</a>) Less(i, j <a href="/pkg/builtin/#int">int</a>) <a href="/pkg/builtin/#bool">bool</a></pre>
+				
+				
+				
+			
+				
+				<h3 id="BlogNavItems.Swap">func (BlogNavItems) <a href="/target/blogs.go?s=276:313#L8">Swap</a></h3>
+				<pre>func (me <a href="#BlogNavItems">BlogNavItems</a>) Swap(i, j <a href="/pkg/builtin/#int">int</a>)</pre>
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="NavItem">type <a href="/target/page-context.go?s=531:592#L21">NavItem</a></h2>
+			<pre>type NavItem struct {
+    CssClass, Href, Caption, Desc <a href="/pkg/builtin/#string">string</a>
+}</pre>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+				
+				<h3 id="NavItem.IsActive">func (*NavItem) <a href="/target/page-context.go?s=702:751#L30">IsActive</a></h3>
+				<pre>func (me *<a href="#NavItem">NavItem</a>) IsActive(pc *<a href="#PageContext">PageContext</a>) <a href="/pkg/builtin/#bool">bool</a></pre>
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="NavItems">type <a href="/target/page-context.go?s=78:101#L1">NavItems</a></h2>
+			<pre>type NavItems []<a href="#NavItem">NavItem</a></pre>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="PageContext">type <a href="/target/page-context.go?s=103:263#L2">PageContext</a></h2>
+			<pre>type PageContext struct {
+    R               *<a href="/pkg/net/http/">http</a>.<a href="/pkg/net/http/#Request">Request</a>
+    Path, PageTitle <a href="/pkg/builtin/#string">string</a>
+    HtmlContent     <a href="/pkg/html/template/">template</a>.<a href="/pkg/html/template/#HTML">HTML</a>
+    TopNav          <a href="#NavItems">NavItems</a>
+    Year            <a href="/pkg/builtin/#int">int</a>
+}</pre>
+			
+
+			
+
+			
+
+			
+
+			
+				
+				<h3 id="NewPageContext">func <a href="/target/page-context.go?s=265:332#L10">NewPageContext</a></h3>
+				<pre>func NewPageContext(r *<a href="/pkg/net/http/">http</a>.<a href="/pkg/net/http/#Request">Request</a>, path <a href="/pkg/builtin/#string">string</a>) (me *<a href="#PageContext">PageContext</a>)</pre>
+				
+				
+			
+
+			
+				
+				<h3 id="PageContext.GetBlogArchive">func (*PageContext) <a href="/target/blogs.go?s=603:662#L27">GetBlogArchive</a></h3>
+				<pre>func (me *<a href="#PageContext">PageContext</a>) GetBlogArchive(path <a href="/pkg/builtin/#string">string</a>) *<a href="#BlogNav">BlogNav</a></pre>
+				
+				
+				
+			
+		
+	
+
+	
+
+
+
+
+
+	
+	
+		<h2 id="pkg-subdirectories">Subdirectories</h2>
+	
+	<table class="dir">
+	<tr>
+	<th>Name</th>
+	<th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
+	<th style="text-align: left; width: auto">Synopsis</th>
+	</tr>
+	
+		<tr>
+		<td><a href="..">..</a></td>
+		</tr>
+	
+	
+		
+			<tr>
+			<td class="name"><a href="helloworld/">helloworld</a></td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td style="width: auto"></td>
+			</tr>
+		
+	
+	</table>
+	
+
+
+
+
+		</div></div>
+	</body>
+</html>
