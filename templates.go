@@ -16,7 +16,7 @@ import (
 	ustr "github.com/metaleap/go-util/str"
 )
 
-func reloadTemplates() {
+func reloadTemplates(_ string) {
 	fileNames := []string{filepath.Join(dir("templates"), "main.html")}
 	uio.NewDirWalker(false, nil, func(_ *uio.DirWalker, fullPath string, _ os.FileInfo) bool {
 		if !strings.HasSuffix(fullPath, string(filepath.Separator)+"main.html") {
@@ -29,7 +29,6 @@ func reloadTemplates() {
 	if err != nil {
 		SiteData.mainTemplate, err = template.New("error").Parse(fmt.Sprintf("ERROR loading templates: %+v", err))
 	}
-	return
 }
 
 func serveTemplatedContent(w http.ResponseWriter, r *http.Request) {

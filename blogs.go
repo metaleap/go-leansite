@@ -51,7 +51,7 @@ type BlogNav struct {
 func (me *PageContext) GetBlogArchive(path string) *BlogNav {
 	if _, ok := SiteData.Blogs[path]; !ok {
 		dirPath := dir("contents", path)
-		handler := func() {
+		handler := func(_ string) {
 			items := BlogNavItems{}
 			uio.NewDirWalker(true, nil, func(_ *uio.DirWalker, fullPath string, _ os.FileInfo) bool {
 				if filepath.Dir(fullPath) != dirPath {
@@ -83,7 +83,7 @@ func (me *PageContext) GetBlogArchive(path string) *BlogNav {
 			DirWatch.WatchDir(fullPath, false, handler)
 			return true
 		}, nil).Walk(dirPath)
-		handler()
+		handler("")
 	}
 	copy := SiteData.Blogs[path]
 	return &copy
