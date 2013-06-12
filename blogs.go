@@ -1,7 +1,6 @@
 package leansite
 
 import (
-	"os"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -53,7 +52,7 @@ func (me *PageContext) GetBlogArchive(path string) *BlogNav {
 		dirPath := dir("contents", path)
 		handler := func(_ string) {
 			items := BlogNavItems{}
-			uio.NewDirWalker(true, nil, func(_ *uio.DirWalker, fullPath string, _ os.FileInfo) bool {
+			uio.WalkAllFiles(dirPath, func(fullPath string) bool {
 				if filepath.Dir(fullPath) != dirPath {
 					vpath := fullPath[:len(fullPath)-len(filepath.Ext(fullPath))]
 					vpath = vpath[len(dirPath):]
@@ -75,14 +74,14 @@ func (me *PageContext) GetBlogArchive(path string) *BlogNav {
 					items = append(items, navItem)
 				}
 				return true
-			}).Walk(dirPath)
+			})
 			sort.Sort(items)
 			SiteData.Blogs[path] = BlogNav{Nav: items}
 		}
-		uio.NewDirWalker(true, func(_ *uio.DirWalker, fullPath string, _ os.FileInfo) bool {
+		uio.WalkAllDirs(dirPath, func(fullPath string) bool {
 			DirWatch.WatchDir(fullPath, false, handler)
 			return true
-		}, nil).Walk(dirPath)
+		})
 		handler("")
 	}
 	copy := SiteData.Blogs[path]

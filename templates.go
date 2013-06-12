@@ -6,7 +6,6 @@ import (
 	"html/template"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"path/filepath"
 	"strings"
 
@@ -18,12 +17,12 @@ import (
 
 func reloadTemplates(_ string) {
 	fileNames := []string{filepath.Join(dir("templates"), "main.html")}
-	uio.NewDirWalker(false, nil, func(_ *uio.DirWalker, fullPath string, _ os.FileInfo) bool {
+	uio.WalkFilesIn(dir("templates"), func(fullPath string) bool {
 		if !strings.HasSuffix(fullPath, string(filepath.Separator)+"main.html") {
 			fileNames = append(fileNames, fullPath)
 		}
 		return true
-	}).Walk(dir("templates"))
+	})
 	var err error
 	SiteData.mainTemplate, err = template.ParseFiles(fileNames...)
 	if err != nil {
