@@ -57,10 +57,10 @@ func Init(dirPath string) (err error) {
 	DirWatch, err = uio.NewWatcher()
 
 	//	Load and watch templates
-	DirWatch.WatchDir(dir("templates"), true, reloadTemplates)
+	DirWatch.WatchIn(dir("templates"), "*.html", true, reloadTemplates)
 
 	//	Load and watch top.nav
-	DirWatch.WatchFiles(dir("contents"), "top.nav", true, func(filePath string) {
+	DirWatch.WatchIn(dir("contents"), "top.nav", true, func(filePath string) {
 		data, err := ioutil.ReadFile(filePath)
 		if err == nil {
 			err = json.Unmarshal(data, &SiteData.TopNav)

@@ -79,7 +79,7 @@ func (me *PageContext) GetBlogArchive(path string) *BlogNav {
 			SiteData.Blogs[path] = BlogNav{Nav: items}
 		}
 		uio.WalkAllDirs(dirPath, func(fullPath string) bool {
-			DirWatch.WatchDir(fullPath, false, handler)
+			DirWatch.WatchIn(fullPath, "*", false, handler)
 			return true
 		})
 		handler("")

@@ -60,7 +60,7 @@ func serveTemplatedContent(w http.ResponseWriter, r *http.Request) {
 				if bytes.Index(fileData, []byte("}}")) > pos {
 					if _, ok := SiteData.pageTemplates[filePath]; !ok {
 						SiteData.pageTemplates[filePath] = nil
-						DirWatch.WatchFiles(filepath.Dir(filePath), ustr.Pattern(filepath.Base(filePath)), false, func(fullPath string) {
+						DirWatch.WatchIn(filepath.Dir(filePath), ustr.Pattern(filepath.Base(filePath)), false, func(fullPath string) {
 							SiteData.pageTemplates[fullPath] = nil
 						})
 					}
