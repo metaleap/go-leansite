@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/goforks/blackfriday"
+	markdown "github.com/goforks/blackfriday"
 
 	uio "github.com/metaleap/go-util/io"
 	ustr "github.com/metaleap/go-util/str"
@@ -84,7 +84,7 @@ func serveTemplatedContent(w http.ResponseWriter, r *http.Request) {
 				}
 			}
 			if isMarkdown {
-				pc.HtmlContent = template.HTML(blackfriday.MarkdownCommon(fileData))
+				pc.HtmlContent = template.HTML(markdown.MarkdownCommon(fileData))
 			} else {
 				pc.HtmlContent = template.HTML(fileData)
 			}
