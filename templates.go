@@ -11,8 +11,8 @@ import (
 
 	markdown "github.com/go-forks/blackfriday"
 
-	uio "github.com/metaleap/go-util/io"
-	ustr "github.com/metaleap/go-util/str"
+	"github.com/go-utils/uio"
+	"github.com/go-utils/ustr"
 )
 
 func reloadTemplates(_ string) {

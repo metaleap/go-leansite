@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	uio "github.com/metaleap/go-util/io"
+	"github.com/go-utils/uio"
 )
 
 //	A collection of blog entries

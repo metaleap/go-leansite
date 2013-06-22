@@ -1,3 +1,4 @@
+// Standalone web server
 package main
 
 import (
@@ -5,8 +6,9 @@ import (
 	"log"
 	"runtime"
 
+	"github.com/go-utils/ugo"
+
 	leansite "github.com/metaleap/go-leansite"
-	ugo "github.com/metaleap/go-util"
 )
 
 func main() {

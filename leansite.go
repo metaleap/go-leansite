@@ -10,7 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	uio "github.com/metaleap/go-util/io"
+	"github.com/go-utils/uio"
 )
 
 var (

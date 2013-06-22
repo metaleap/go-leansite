@@ -1,4 +1,4 @@
-//	This is the app handler for running the helloworld Site on Google App Engine
+// This is the app handler for running the helloworld Site on Google App Engine
 package helloworld
 
 import (
