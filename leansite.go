@@ -10,7 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/go-utils/uio"
+	"github.com/go-utils/ufs"
 )
 
 var (
@@ -18,7 +18,7 @@ var (
 	DirPath string
 
 	//	Various file-system watchers, initialized by Init()
-	DirWatch *uio.Watcher
+	DirWatch *ufs.Watcher
 
 	//	Our request router, initialized by Init()
 	Router *mux.Router
@@ -54,7 +54,7 @@ func Init(dirPath string) (err error) {
 	SiteData.Blogs = map[string]BlogNav{}
 	SiteData.pageTemplates = map[string]*template.Template{}
 	DirPath = dirPath
-	DirWatch, err = uio.NewWatcher()
+	DirWatch, err = ufs.NewWatcher()
 
 	//	Load and watch templates
 	DirWatch.WatchIn(dir("templates"), "*.html", true, reloadTemplates)

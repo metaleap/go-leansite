@@ -11,13 +11,13 @@ import (
 
 	markdown "github.com/go-forks/blackfriday"
 
-	"github.com/go-utils/uio"
+	"github.com/go-utils/ufs"
 	"github.com/go-utils/ustr"
 )
 
 func reloadTemplates(_ string) {
 	fileNames := []string{filepath.Join(dir("templates"), "main.html")}
-	uio.WalkFilesIn(dir("templates"), func(fullPath string) bool {
+	ufs.WalkFilesIn(dir("templates"), func(fullPath string) bool {
 		if !strings.HasSuffix(fullPath, string(filepath.Separator)+"main.html") {
 			fileNames = append(fileNames, fullPath)
 		}
@@ -33,7 +33,7 @@ func reloadTemplates(_ string) {
 func serveTemplatedContent(w http.ResponseWriter, r *http.Request) {
 	urlPath := strings.Trim(r.URL.Path, "/")
 	//	First handle static files (robots.txt / sitemap.xml / favicon.ico etc.) etc via 'static' folder
-	if uio.FileExists(filepath.Join(dir("static"), urlPath)) {
+	if ufs.FileExists(filepath.Join(dir("static"), urlPath)) {
 		fileServer.ServeHTTP(w, r)
 		return
 	}
@@ -44,16 +44,16 @@ func serveTemplatedContent(w http.ResponseWriter, r *http.Request) {
 		fileData   []byte
 		isMarkdown bool
 	)
-	if filePath = filepath.Join(dir("contents"), urlPath) + ".html"; !uio.FileExists(filePath) {
-		if filePath = filepath.Join(dir("contents"), urlPath, "index.html"); !uio.FileExists(filePath) {
+	if filePath = filepath.Join(dir("contents"), urlPath) + ".html"; !ufs.FileExists(filePath) {
+		if filePath = filepath.Join(dir("contents"), urlPath, "index.html"); !ufs.FileExists(filePath) {
 			isMarkdown = true
-			if filePath = filepath.Join(dir("contents"), urlPath) + ".md"; !uio.FileExists(filePath) {
+			if filePath = filepath.Join(dir("contents"), urlPath) + ".md"; !ufs.FileExists(filePath) {
 				filePath = filepath.Join(dir("contents"), urlPath, "index.md")
 			}
 		}
 	}
 	pc := NewPageContext(r, urlPath)
-	if len(filePath) > 0 && uio.FileExists(filePath) {
+	if len(filePath) > 0 && ufs.FileExists(filePath) {
 		if fileData, err = ioutil.ReadFile(filePath); err == nil {
 			var tmpl *template.Template
 			if pos := bytes.Index(fileData, []byte("{{")); pos >= 0 {

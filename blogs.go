@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/go-utils/uio"
+	"github.com/go-utils/ufs"
 )
 
 //	A collection of blog entries
@@ -52,13 +52,13 @@ func (me *PageContext) GetBlogArchive(path string) *BlogNav {
 		dirPath := dir("contents", path)
 		handler := func(_ string) {
 			items := BlogNavItems{}
-			uio.WalkAllFiles(dirPath, func(fullPath string) bool {
+			ufs.WalkAllFiles(dirPath, func(fullPath string) bool {
 				if filepath.Dir(fullPath) != dirPath {
 					vpath := fullPath[:len(fullPath)-len(filepath.Ext(fullPath))]
 					vpath = vpath[len(dirPath):]
 					navItem := BlogNavItem{}
 					navItem.Href, navItem.Caption = filepath.ToSlash(vpath), filepath.Base(vpath)
-					if src := uio.ReadTextFile(fullPath, false, ""); len(src) > 0 {
+					if src := ufs.ReadTextFile(fullPath, false, ""); len(src) > 0 {
 						if pos1, pos2 := strings.Index(src, "<h2>"), strings.Index(src, "</h2>"); pos1 >= 0 && pos2 > pos1 {
 							src = src[:pos2]
 							navItem.Caption = src[pos1+4:]
@@ -78,7 +78,7 @@ func (me *PageContext) GetBlogArchive(path string) *BlogNav {
 			sort.Sort(items)
 			SiteData.Blogs[path] = BlogNav{Nav: items}
 		}
-		uio.WalkAllDirs(dirPath, func(fullPath string) bool {
+		ufs.WalkAllDirs(dirPath, func(fullPath string) bool {
 			DirWatch.WatchIn(fullPath, "*", false, handler)
 			return true
 		})

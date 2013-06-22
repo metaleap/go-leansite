@@ -20,7 +20,7 @@ var (
 	DirPath string
 
 	//	Various file-system watchers, initialized by Init()
-	DirWatch *uio.Watcher
+	DirWatch *ufs.Watcher
 
 	//	Our request router, initialized by Init()
 	Router *mux.Router
