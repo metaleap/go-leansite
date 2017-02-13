@@ -9,10 +9,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	markdown "github.com/go-forks/blackfriday"
+	markdown "github.com/russross/blackfriday"
 
-	"github.com/go-utils/ufs"
-	"github.com/go-utils/ustr"
+	"github.com/metaleap/go-util-fs"
+	"github.com/metaleap/go-util-str"
 )
 
 func reloadTemplates(_ string) {

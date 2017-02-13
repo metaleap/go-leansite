@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/go-utils/ufs"
+	"github.com/metaleap/go-util-fs"
 )
 
 //	A collection of blog entries
