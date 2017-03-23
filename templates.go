@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	markdown "github.com/russross/blackfriday"
+	markdown "github.com/go-forks/blackfriday"
 
 	"github.com/metaleap/go-util-fs"
 	"github.com/metaleap/go-util-str"
