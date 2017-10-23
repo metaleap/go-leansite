@@ -10,7 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/metaleap/go-util-fs"
+	"github.com/metaleap/go-util/fs"
 )
 
 var (

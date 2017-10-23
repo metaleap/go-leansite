@@ -5,14 +5,14 @@ import (
 	"flag"
 	"log"
 
-	"github.com/metaleap/go-util-misc"
+	"github.com/metaleap/go-util/dev/go"
 
 	leansite "github.com/metaleap/go-leansite"
 )
 
 func main() {
 	flag.Parse()
-	dirPath := *flag.String("dir", ugo.GopathSrcGithub("metaleap", "go-leansite", "helloworld"), "Root directory path containing the static, contents, templates etc. folders.")
+	dirPath := *flag.String("dir", udevgo.GopathSrcGithub("metaleap", "go-leansite", "helloworld"), "Root directory path containing the static, contents, templates etc. folders.")
 	leansite.Init(dirPath)
 	log.Println("Listening any moment now...")
 	log.Fatal(leansite.ListenAndServe(":8008"))

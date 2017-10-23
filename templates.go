@@ -11,8 +11,8 @@ import (
 
 	markdown "github.com/go-forks/blackfriday"
 
-	"github.com/metaleap/go-util-fs"
-	"github.com/metaleap/go-util-str"
+	"github.com/metaleap/go-util/fs"
+	"github.com/metaleap/go-util/str"
 )
 
 func reloadTemplates(_ string) {
